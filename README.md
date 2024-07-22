@@ -10,7 +10,7 @@ Celestia is a modular data availability network that securely scales with the nu
 * [Docs](https://docs.celestia.org/)
 * [Github](https://github.com/celestiaorg)
 
-#### This script allows you to set up and run a Celestia Light Node with a single command. Script automatically does the necessary setup, setup the Light node and runs it inside the screen.
+#### This script allows you to set up and run a `Celestia Light Node` with a single command. Script automatically does the necessary setup, setup the Light node and runs it inside the screen.
 
 ## System Requirements
 
@@ -32,5 +32,7 @@ To use this script, run the following command in your terminal:
 ```bash
 wget -q -O light_kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/light_kocality.sh && sudo chmod +x light_kocality.sh && ./light_kocality.sh
 ```
+
+Note: You can exit the screen with `CTRL A + D`. When you exit in this way, your node will continue to work on the screen. 
 
 ### LM🦥
