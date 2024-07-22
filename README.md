@@ -20,7 +20,7 @@ Celestia is a modular data availability network that securely scales with the nu
 - Bandwidth: 56 Kbps for Download/56 Kbps for Upload
 
 ## About Light Node
-Light nodes allow anyone to directly verify data availability and interact with Celestia without centralized gateways or RPC providers. They perform data availability sampling (DAS) on the received headers, ensuring data availability. This is the most common way to interact with Celestia networks and enables Celestia to securely increase throughput for rollups as new light nodes join the network over time.
+Light nodes allow anyone to directly verify data availability and interact with Celestia without centralized gateways or RPC providers. They perform [data availability sampling (DAS)](https://celestia.org/glossary/data-availability-sampling/) on the received headers, ensuring data availability. This is the most common way to interact with Celestia networks and enables Celestia to securely increase throughput for rollups as new light nodes join the network over time.
 
 <div style="text-align: center;">
     <img src="https://docs.celestia.org/img/nodes/LightNodes.png" width="700"/>
