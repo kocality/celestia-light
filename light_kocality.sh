@@ -36,12 +36,17 @@ setup_celestia_node() {
     sudo chown 10001:10001 $HOME/my-node-store
 
     echo -e "${YELLOW}Initializing Celestia Light Node${NORMAL}"
-    docker run -e NODE_TYPE=$NODE_TYPE -e P2P_NETWORK=$NETWORK \
+    OUTPUT=$(docker run -e NODE_TYPE=$NODE_TYPE -e P2P_NETWORK=$NETWORK \
         -v $HOME/my-node-store:/home/celestia \
         ghcr.io/celestiaorg/celestia-node:v0.13.7 \
-        celestia light init --p2p.network $NETWORK
+        celestia light init --p2p.network $NETWORK)
 
-    echo -e "${GREEN}Please save your wallet information and mnemonics securely.${NORMAL}"
+    echo -e "${RED}Please save your wallet information and mnemonics securely.${NORMAL}"
+    echo -e "${RED}NAME and ADDRESS:${NORMAL}"
+    echo -e "${NORMAL}$(echo "$OUTPUT" | grep -E 'NAME|ADDRESS')${NORMAL}"
+    echo -e "${RED}MNEMONIC (save this somewhere safe!!!):${NORMAL}"
+    echo -e "${NORMAL}$(echo "$OUTPUT" | sed -n '/MNEMONIC (save this somewhere safe!!!):/,$p' | tail -n +2)${NORMAL}"
+    echo -e "${RED}This information will not be saved automatically. Make sure to record it manually.${NORMAL}"
     
     while true; do
         read -p "Did you save your wallet information and mnemonics? (yes/no): " yn
@@ -68,8 +73,8 @@ main() {
     start_celestia_node
     echo -e "${GREEN}Celestia Light Node setup and started successfully.${NORMAL}"
     echo -e "${YELLOW}To view the logs, use: screen -r celestia-node${NORMAL}"
+    echo -e "${YELLOW}To detach from screen, press Ctrl+A, then D.${NORMAL}"
 
-    
     echo -e "${GREEN}LM${NORMAL}"
 }
 
