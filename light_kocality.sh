@@ -68,7 +68,9 @@ main() {
     start_celestia_node
     echo -e "${GREEN}Celestia Light Node setup and started successfully.${NORMAL}"
     echo -e "${YELLOW}To view the logs, use: screen -r celestia-node${NORMAL}"
-    echo -e "${GREEN}LM🦥${NORMAL}"
+
+    
+    echo -e "${GREEN}LM${NORMAL}"
 }
 
 # Execute the main function
