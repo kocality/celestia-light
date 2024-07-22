@@ -10,10 +10,7 @@ Celestia is a modular data availability network that securely scales with the nu
 * [Docs](https://docs.celestia.org/)
 * [Github](https://github.com/celestiaorg)
 
-#### This script allows you to set up and run a `Celestia Light` Node with a single command. 
-
-#### The script automatically does the necessary setup, setup the Light node and runs it inside the screen
-
+#### This script allows you to set up and run a `Celestia Light` Node with a single command. Script automatically does the necessary setup, setup the Light node and runs it inside the screen.
 
 ## System Requirements
 
