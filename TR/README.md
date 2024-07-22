@@ -20,7 +20,7 @@ Celestia, kullanıcı sayısıyla güvenli bir şekilde ölçeklenen, modüler b
 - Disk: 100 GB SSD Storage
 - Bandwidth: 56 Kbps for Download/56 Kbps for Upload
 
-## About Light Node
+## Light Node Hakkında
 Light nodelar, herhangi bir merkezi ağ geçidi veya RPC sağlayıcısı olmadan veri kullanılabilirliğini doğrudan doğrulamanıza ve Celestia ile etkileşim kurmanıza olanak tanır. Alınan başlıklar üzerinde data availability sampling (DAS) gerçekleştirirler, bu da veri kullanılabilirliğini sağlar. Bu, Celestia ağlarıyla etkileşim kurmanın en yaygın yoludur ve zamanla ağa katılan yeni light node'lar sayesinde Celestia'nın rolluplar için güvenli bir şekilde throughput'u artırmasını sağlar.
 
 <div style="text-align: center;">
@@ -33,5 +33,7 @@ Bu script'i kullanmak için terminalinize aşağıdaki komutu girin:
 ```bash
 wget -q -O light_kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/light_kocality.sh && sudo chmod +x light_kocality.sh && ./light_kocality.sh
 ```
+
+Not: Screen'den `CTRL A+D` ile çıkabilirsiniz. Bu şekilde çıktığınızda node`unuz screen'de çalışmaya devam edecektir. 
 
 ### LM🦥
