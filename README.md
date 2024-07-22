@@ -32,3 +32,5 @@ To use this script, run the following command in your terminal:
 ```bash
 wget -q -O light_kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/light_kocality.sh && sudo chmod +x light_kocality.sh && ./light_kocality.sh
 ```
+
+### LM🦥
