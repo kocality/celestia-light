@@ -19,6 +19,8 @@ Celestia is a modular data availability network that securely scales with the nu
 - Disk: 100 GB SSD Storage
 - Bandwidth: 56 Kbps for Download/56 Kbps for Upload
 
+Note: The script only works on Ubuntu (20.04/22.04). 
+
 ## About Light Node
 Light nodes allow anyone to directly verify data availability and interact with Celestia without centralized gateways or RPC providers. They perform [data availability sampling (DAS)](https://celestia.org/glossary/data-availability-sampling/) on the received headers, ensuring data availability. This is the most common way to interact with Celestia networks and enables Celestia to securely increase throughput for rollups as new light nodes join the network over time.
 
@@ -30,7 +32,7 @@ Light nodes allow anyone to directly verify data availability and interact with 
 
 To use this script, run the following command in your terminal:
 ```bash
-wget -q -O light_kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/light_kocality.sh && sudo chmod +x light_kocality.sh && ./light_kocality.sh
+wget -q -O kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/kocality.sh && sudo chmod +x kocality.sh && ./kocality.sh
 ```
 
 Note: You can exit the screen with `CTRL A + D`. When you exit in this way, your node will continue to work on the screen. 
