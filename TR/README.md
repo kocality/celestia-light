@@ -31,7 +31,7 @@ Light nodelar, herhangi bir merkezi ağ geçidi veya RPC sağlayıcısı olmadan
 
 Bu script'i kullanmak için terminalinize aşağıdaki komutu girin:
 ```bash
-wget -q -O light_kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/light_kocality.sh && sudo chmod +x light_kocality.sh && ./light_kocality.sh
+wget -q -O kocality.sh https://raw.githubusercontent.com/kocality/celestia-light/main/kocality.sh && sudo chmod +x kocality.sh && ./kocality.sh
 ```
 
 Not: Screen'den `CTRL A+D` ile çıkabilirsiniz. Bu şekilde çıktığınızda node`unuz screen'de çalışmaya devam edecektir. 
