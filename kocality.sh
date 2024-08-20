@@ -34,19 +34,21 @@ cleanup() {
 
 # Languages
 while true; do
-    echo -e "${YELLOW}Select Language / Dil Seçiniz / 选择语言 / Choisissez la langue:${NORMAL}"
+    echo -e "${YELLOW}Select Language / Dil Seçiniz / 选择语言 / Choisissez la langue / Seleccione el idioma:${NORMAL}"
     echo -e "1) English"
     echo -e "2) Türkçe"
     echo -e "3) 中文"
     echo -e "4) Français"
-    read -p "Enter your choice (1/2/3/4): " lang_choice
+    echo -e "5) Español"
+    read -p "Enter your choice (1/2/3/4/5): " lang_choice
 
     case $lang_choice in
         1) lang="EN"; break ;;
         2) lang="TR"; break ;;
         3) lang="CN"; break ;;
         4) lang="FR"; break ;;
-        *) echo -e "${RED}Invalid choice. Please enter 1, 2, 3, or 4.${NORMAL}" ;;
+        5) lang="ES"; break ;;
+        *) echo -e "${RED}Invalid choice. Please enter 1, 2, 3, 4, or 5.${NORMAL}" ;;
     esac
 done
 
@@ -63,8 +65,10 @@ if [ -z "$VERSION" ]; then
         echo "En son sürüm alınamadı. Çıkılıyor."
     elif [ "$lang" == "CN" ]; then
         echo "无法获取最新版本。退出。"
-    elif [ "$lang" == "FR" ]; then
+    elif [ "$lang" == "FR" ];then
         echo "Impossible de récupérer la dernière version. Sortie."
+    elif [ "$lang" == "ES" ];then
+        echo "No se pudo obtener la última versión. Saliendo."
     fi
     log_message "Failed to fetch the latest version."
     cleanup
@@ -78,12 +82,14 @@ check_existing_installation() {
     if [ -d "$HOME/my-node-store" ] || [ ! -z "$(sudo docker ps -q --filter ancestor=ghcr.io/celestiaorg/celestia-node:$VERSION)" ]; then
         if [ "$lang" == "EN" ]; then
             echo -e "${GREEN}Celestia Light Node is already installed. Aborting installation.${NORMAL}"
-        elif [ "$lang" == "TR" ]; then
+        elif [ "$lang" == "TR" ];then
             echo -e "${GREEN}Celestia Light Node zaten kurulu. Kurulum iptal ediliyor.${NORMAL}"
         elif [ "$lang" == "CN" ];then
             echo -e "${GREEN}Celestia轻节点已安装。安装中止。${NORMAL}"
-        elif [ "$lang" == "FR" ]; then
+        elif [ "$lang" == "FR" ];then
             echo -e "${GREEN}Le nœud léger Celestia est déjà installé. Annulation de l'installation.${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${GREEN}Celestia Light Node ya está instalado. Abortando la instalación.${NORMAL}"
         fi
         log_message "Celestia Light Node is already installed. Installation aborted."
         cleanup
@@ -108,17 +114,21 @@ remove_celestia_node() {
             echo -e "${GREEN}Celestia轻节点成功移除。${NORMAL}"
         elif [ "$lang" == "FR" ];then
             echo -e "${GREEN}Le nœud léger Celestia a été supprimé avec succès.${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${GREEN}Celestia Light Node eliminado con éxito.${NORMAL}"
         fi
         log_message "Celestia Light Node removed successfully."
     else
         if [ "$lang" == "EN" ]; then
             echo -e "${YELLOW}No node found to remove.${NORMAL}"
-        elif [ "$lang" == "TR" ]; then
+        elif [ "$lang" == "TR" ];then
             echo -e "${YELLOW}Kaldırılacak node bulunamadı.${NORMAL}"
-        elif [ "$lang" == "CN" ]; then
+        elif [ "$lang" == "CN" ];then
             echo -e "${YELLOW}未找到要移除的节点。${NORMAL}"
         elif [ "$lang" == "FR" ];then
             echo -e "${YELLOW}Aucun nœud trouvé à supprimer.${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${YELLOW}No se encontró ningún nodo para eliminar.${NORMAL}"
         fi
         log_message "No node found to remove."
     fi
@@ -127,25 +137,29 @@ remove_celestia_node() {
 # Install system dependencies
 install_dependencies() {
     log_message "Installing system updates and dependencies..."
-    if [ "$lang" == "EN" ]; then
+    if [ "$lang" == "EN" ];then
         echo -e "${YELLOW}Installing System Updates and Dependencies...${NORMAL} (This may take a few minutes)"
-    elif [ "$lang" == "TR" ]; then
+    elif [ "$lang" == "TR" ];then
         echo -e "${YELLOW}Sistem Güncellemeleri ve Bağımlılıklar Yükleniyor...${NORMAL} (Bu birkaç dakika sürebilir)"
-    elif [ "$lang" == "CN" ]; then
+    elif [ "$lang" == "CN" ];then
         echo -e "${YELLOW}正在安装系统更新和依赖项...${NORMAL}（可能需要几分钟）"
-    elif [ "$lang" == "FR" ]; then
+    elif [ "$lang" == "FR" ];then
         echo -e "${YELLOW}Installation des mises à jour système et des dépendances...${NORMAL} (Cela peut prendre quelques minutes)"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${YELLOW}Instalando actualizaciones del sistema y dependencias...${NORMAL} (Esto puede tardar unos minutos)"
     fi
     sudo apt update -y >/dev/null 2>&1 && sudo apt upgrade -y >/dev/null 2>&1
     sudo apt-get install -y curl tar wget aria2 clang pkg-config libssl-dev jq build-essential git make ncdu screen >/dev/null 2>&1
-    if [ "$lang" == "EN" ]; then
+    if [ "$lang" == "EN" ];then
         echo -e "${GREEN}System Updates and Dependencies installed successfully.${NORMAL}"
-    elif [ "$lang" == "TR" ]; then
+    elif [ "$lang" == "TR" ];then
         echo -e "${GREEN}Sistem Güncellemeleri ve Bağımlılıklar başarıyla yüklendi.${NORMAL}"
     elif [ "$lang" == "CN" ];then
         echo -e "${GREEN}系统更新和依赖项已成功安装。${NORMAL}"
-    elif [ "$lang" == "FR" ]; then
+    elif [ "$lang" == "FR" ];then
         echo -e "${GREEN}Les mises à jour du système et les dépendances ont été installées avec succès.${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${GREEN}Actualizaciones del sistema y dependencias instaladas con éxito.${NORMAL}"
     fi
     log_message "System updates and dependencies installed successfully."
 }
@@ -154,39 +168,45 @@ install_dependencies() {
 install_docker() {
     log_message "Checking for Docker installation..."
     if ! command -v docker &> /dev/null; then
-        if [ "$lang" == "EN" ]; then
+        if [ "$lang" == "EN" ];then
             echo -e "${YELLOW}Installing Docker...${NORMAL}"
-        elif [ "$lang" == "TR" ]; then
+                elif [ "$lang" == "TR" ];then
             echo -e "${YELLOW}Docker Yükleniyor...${NORMAL}"
         elif [ "$lang" == "CN" ];then
             echo -e "${YELLOW}正在安装Docker...${NORMAL}"
         elif [ "$lang" == "FR" ];then
             echo -e "${YELLOW}Installation de Docker...${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${YELLOW}Instalando Docker...${NORMAL}"
         fi
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         sudo apt-get update >/dev/null 2>&1
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io >/dev/null 2>&1
         sudo docker run hello-world >/dev/null 2>&1
-        if [ "$lang" == "EN" ]; then
+        if [ "$lang" == "EN" ];then
             echo -e "${GREEN}Docker installed successfully.${NORMAL}"
-        elif [ "$lang" == "TR" ]; then
+        elif [ "$lang" == "TR" ];then
             echo -e "${GREEN}Docker başarıyla yüklendi.${NORMAL}"
         elif [ "$lang" == "CN" ];then
             echo -e "${GREEN}Docker安装成功。${NORMAL}"
         elif [ "$lang" == "FR" ];then
             echo -e "${GREEN}Docker installé avec succès.${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${GREEN}Docker instalado con éxito.${NORMAL}"
         fi
         log_message "Docker installed successfully."
     else
-        if [ "$lang" == "EN" ]; then
+        if [ "$lang" == "EN" ];then
             echo -e "${GREEN}Docker is already installed.${NORMAL}"
-        elif [ "$lang" == "TR" ]; then
+        elif [ "$lang" == "TR" ];then
             echo -e "${GREEN}Docker zaten yüklü.${NORMAL}"
-        elif [ "$lang" == "CN" ]; then
+        elif [ "$lang" == "CN" ];then
             echo -e "${GREEN}Docker已经安装。${NORMAL}"
-        elif [ "$lang" == "FR" ]; then
+        elif [ "$lang" == "FR" ];then
             echo -e "${GREEN}Docker est déjà installé.${NORMAL}"
+        elif [ "$lang" == "ES" ];then
+            echo -e "${GREEN}Docker ya está instalado.${NORMAL}"
         fi
         log_message "Docker is already installed."
     fi
@@ -194,14 +214,16 @@ install_docker() {
 
 setup_celestia_node() {
     log_message "Setting up Celestia Light Node..."
-    if [ "$lang" == "EN" ]; then
+    if [ "$lang" == "EN" ];then
         echo -e "${YELLOW}Setting up Celestia Light Node...${NORMAL}"
-    elif [ "$lang" == "TR" ]; then
+    elif [ "$lang" == "TR" ];then
         echo -e "${YELLOW}Celestia Light Node kuruluyor...${NORMAL}"
     elif [ "$lang" == "CN" ];then
         echo -e "${YELLOW}正在设置Celestia轻节点...${NORMAL}"
     elif [ "$lang" == "FR" ];then
         echo -e "${YELLOW}Configuration du nœud léger Celestia...${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${YELLOW}Configurando Celestia Light Node...${NORMAL}"
     fi
     export NETWORK=celestia
     export NODE_TYPE=light
@@ -211,7 +233,7 @@ setup_celestia_node() {
     mkdir -p my-node-store
     sudo chown 10001:10001 $HOME/my-node-store
 
-    if [ "$lang" == "EN" ]; then
+    if [ "$lang" == "EN" ];then
         echo -e "${YELLOW}Initializing Celestia Light Node...${NORMAL}"
     elif [ "$lang" == "TR" ];then
         echo -e "${YELLOW}Celestia Light Node başlatılıyor...${NORMAL}"
@@ -219,6 +241,8 @@ setup_celestia_node() {
         echo -e "${YELLOW}正在初始化Celestia轻节点...${NORMAL}"
     elif [ "$lang" == "FR" ];then
         echo -e "${YELLOW}Initialisation du nœud léger Celestia...${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${YELLOW}Inicializando Celestia Light Node...${NORMAL}"
     fi
     OUTPUT=$(sudo docker run -e NODE_TYPE=$NODE_TYPE -e P2P_NETWORK=$NETWORK \
         -v $HOME/my-node-store:/home/celestia \
@@ -253,6 +277,13 @@ setup_celestia_node() {
         echo -e "${RED}MNEMONIQUE (enregistrez ceci quelque part en sécurité!!!):${NORMAL}"
         echo -e "${NORMAL}$(echo "$OUTPUT" | sed -n '/MNEMONIC (save this somewhere safe!!!):/,$p' | tail -n +2)${NORMAL}"
         echo -e "${RED}Ces informations ne seront pas enregistrées automatiquement. Assurez-vous de les noter manuellement.${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${RED}Por favor, guarde su información de billetera y mnemonics de manera segura.${NORMAL}"
+        echo -e "${RED}NOMBRE y DIRECCIÓN:${NORMAL}"
+        echo -e "${NORMAL}$(echo "$OUTPUT" | grep -E 'NAME|ADDRESS')${NORMAL}"
+        echo -e "${RED}MNEMONIC (guarde esto en un lugar seguro!!!):${NORMAL}"
+        echo -e "${NORMAL}$(echo "$OUTPUT" | sed -n '/MNEMONIC (save this somewhere safe!!!):/,$p' | tail -n +2)${NORMAL}"
+        echo -e "${RED}Esta información no se guardará automáticamente. Asegúrese de registrarla manualmente.${NORMAL}"
     fi
 
     log_message "Celestia Light Node initialized."
@@ -264,11 +295,13 @@ setup_celestia_node() {
             read -p "Cüzdan bilgilerinizi ve mnemonic'lerinizi kaydettiniz mi? (evet/hayır): " yn
         elif [ "$lang" == "CN" ];then
             read -p "您保存了钱包信息和助记符吗？（是/否）： " yn
-        elif [ "$lang" == "FR" ];then
+                elif [ "$lang" == "FR" ];then
             read -p "Avez-vous enregistré vos informations de portefeuille et vos mnémoniques ? (oui/non) : " yn
+        elif [ "$lang" == "ES" ];then
+            read -p "¿Ha guardado su información de billetera y mnemonics? (sí/no): " yn
         fi
         case $yn in
-            [Yy]* | [Ee]* | [是]* | [Oo]*)
+            [Yy]* | [Ee]* | [是]* | [Oo]* | [Ss]*)
                 log_message "User confirmed that wallet information and mnemonics were saved."
                 break
                 ;;
@@ -281,6 +314,8 @@ setup_celestia_node() {
                     echo -e "${RED}请在继续之前保存您的钱包信息和助记符。${NORMAL}"
                 elif [ "$lang" == "FR" ];then
                     echo -e "${RED}Veuillez enregistrer vos informations de portefeuille et vos mnémoniques avant de continuer.${NORMAL}"
+                elif [ "$lang" == "ES" ];then
+                    echo -e "${RED}Por favor, guarde su información de billetera y mnemonics antes de continuar.${NORMAL}"
                 fi
                 ;;
             *)
@@ -292,6 +327,8 @@ setup_celestia_node() {
                     echo "请回答是或否。"
                 elif [ "$lang" == "FR" ];then
                     echo "Veuillez répondre par oui ou non."
+                elif [ "$lang" == "ES" ];then
+                    echo "Por favor, responda sí o no."
                 fi
                 ;;
         esac
@@ -304,10 +341,12 @@ start_celestia_node() {
         echo -e "${YELLOW}Starting Celestia Light Node...${NORMAL}"
     elif [ "$lang" == "TR" ];then
         echo -e "${YELLOW}Celestia Light Node başlatılıyor...${NORMAL}"
-            elif [ "$lang" == "CN" ];then
+    elif [ "$lang" == "CN" ];then
         echo -e "${YELLOW}正在启动Celestia轻节点...${NORMAL}"
     elif [ "$lang" == "FR" ];then
         echo -e "${YELLOW}Démarrage du nœud léger Celestia...${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${YELLOW}Iniciando Celestia Light Node...${NORMAL}"
     fi
 
     screen -S celestia-node -dm bash -c "sudo docker run -e NODE_TYPE=$NODE_TYPE -e P2P_NETWORK=$NETWORK \
@@ -331,6 +370,10 @@ start_celestia_node() {
         echo -e "${GREEN}Le nœud léger Celestia a démarré avec succès.${NORMAL}"
         echo -e "${YELLOW}Pour voir les journaux, utilisez : screen -r celestia-node${NORMAL}"
         echo -e "${YELLOW}Pour détacher l'écran, appuyez sur Ctrl+A, puis D.${NORMAL}"
+    elif [ "$lang" == "ES" ];then
+        echo -e "${GREEN}Celestia Light Node iniciado con éxito.${NORMAL}"
+        echo -e "${YELLOW}Para ver los registros, use: screen -r celestia-node${NORMAL}"
+        echo -e "${YELLOW}Para salir de screen, presione Ctrl+A, luego D.${NORMAL}"
     fi
 
     log_message "Celestia Light Node started successfully."
@@ -384,6 +427,11 @@ elif [ "$lang" == "FR" ];then
     echo -e ""
     echo -e "${GREEN}${BOLD}${ITALIC}Ce script a été fait avec amour par ${BOLD}@kkocality <3${NORMAL}"
     echo -e "${GREEN}${BOLD}${ITALIC}Pour plus d'informations: kocality.com${NORMAL}"
+elif [ "$lang" == "ES" ];then
+    echo -e "${GREEN}${BOLD}${ITALIC}¡Bienvenido al script de un solo comando para Celestia Light Node!${NORMAL}"
+    echo -e ""
+    echo -e "${GREEN}${BOLD}${ITALIC}Este script fue hecho con amor por ${BOLD}@kkocality <3${NORMAL}"
+    echo -e "${GREEN}${BOLD}${ITALIC}Para más información: kocality.com${NORMAL}"
 fi
 
 log_message "Script started."
@@ -419,6 +467,13 @@ while true; do
         echo -e "2) Supprimer Celestia Light Node"
         echo -e ""
         read -p "Entrez votre choix (1/2) : " choice
+    elif [ "$lang" == "ES" ];then
+        echo -e "${YELLOW}¿Qué le gustaría hacer?${NORMAL}"
+        echo -e ""
+        echo -e "1) Configurar Celestia Light Node"
+        echo -e "2) Eliminar Celestia Light Node"
+        echo -e ""
+        read -p "Ingrese su elección (1/2): " choice
     fi
 
     case $choice in
@@ -443,6 +498,8 @@ while true; do
                 echo -e "${RED}无效选择。请输入1或2。${NORMAL}"
             elif [ "$lang" == "FR" ];then
                 echo -e "${RED}Choix invalide. Veuillez entrer 1 ou 2.${NORMAL}"
+            elif [ "$lang" == "ES" ];then
+                echo -e "${RED}Elección no válida. Por favor, ingrese 1 o 2.${NORMAL}"
             fi
             ;;
     esac
